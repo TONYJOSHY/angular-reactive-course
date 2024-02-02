@@ -1,0 +1,16 @@
+Feature
+<mat-toolbar>
+    <span> Angular Reactive Course </span>
+</mat-toolbar>
+
+<mat-sidenav-container class="example-container" [hasBackdrop]="true">
+    <mat-sidenav #sidenav [mode]="'side'" [position]="'start'">
+      <a [routerLink]="['/home/post']"> Post </a>
+     
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>
+
