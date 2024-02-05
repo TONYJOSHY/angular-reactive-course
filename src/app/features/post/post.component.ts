@@ -8,7 +8,7 @@ import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { PageEvent, MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
-import { BehaviorSubject, EMPTY, Observable, catchError, combineLatest, finalize, map, of, startWith, switchMap, take, tap } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, Subject, catchError, combineLatest, finalize, map, of, startWith, switchMap, take, tap } from 'rxjs';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Post } from './models/post.interface';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'; 
@@ -47,9 +47,7 @@ export class PostComponent {
 
   postListFilters$ = new BehaviorSubject<Partial<PostListParams>>(this.postListFilterForm.value)
   pageEvent$ = new BehaviorSubject<PageIndexInterface>({ _start: 0, _limit: 5 })
-  loadingSubject$ = new BehaviorSubject<boolean>(true)
-
-  // postList$!: Observable<Post[]>;
+  loadingSubject$ = new Subject<boolean>()
 
   constructor(private postService: PostService,
     private fb: FormBuilder){  }
