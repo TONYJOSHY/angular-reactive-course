@@ -1,33 +1,60 @@
+<ng-container *ngIf="vm$ | async as vm">
 
-<table mat-table [dataSource]="(postList$ | async)!" class="mat-elevation-z8">
+  <form class="example-form-fields" [formGroup]="postListFilterForm">
+    <mat-form-field>
+      <mat-label> Search </mat-label>
+      <input matInput placeholder="Search" formControlName="_search">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label> User </mat-label>
+        <mat-select formControlName="user">
+            <ng-container *ngFor="let user of vm.users">
+                <mat-option [value]="user.id">{{ user.name }}</mat-option>
+            </ng-container>
+        </mat-select>
+    </mat-form-field>
+  </form>
+    
+    <table mat-table [dataSource]="vm.loader ? [] : vm.posts" class="mat-elevation-z8">
+    
+        <ng-container matColumnDef="title">
+          <th mat-header-cell *matHeaderCellDef> Title </th>
+          <td mat-cell *matCellDef="let element"> {{ element.title }} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="body">
+          <th mat-header-cell *matHeaderCellDef> Body </th>
+          <td mat-cell *matCellDef="let element"> {{ element.body }} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="user">
+          <th mat-header-cell *matHeaderCellDef> User </th>
+          <td mat-cell *matCellDef="let element"> {{ element.userId }} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="post">
+          <th mat-header-cell *matHeaderCellDef> Post id </th>
+          <td mat-cell *matCellDef="let element"> {{ element.id }} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="userName">
+            <th mat-header-cell *matHeaderCellDef> Username </th>
+            <td mat-cell *matCellDef="let element"> {{ element.userName }} </td>
+          </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
 
-    <ng-container matColumnDef="title">
-      <th mat-header-cell *matHeaderCellDef> Title </th>
-      <td mat-cell *matCellDef="let element"> {{ element.title }} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="body">
-      <th mat-header-cell *matHeaderCellDef> Body </th>
-      <td mat-cell *matCellDef="let element"> {{ element.body }} </td>
-    </ng-container>
-  
-    <ng-container matColumnDef="user">
-      <th mat-header-cell *matHeaderCellDef> User </th>
-      <td mat-cell *matCellDef="let element"> {{ element.userId }} </td>
-    </ng-container>
-  
-    <ng-container matColumnDef="post">
-      <th mat-header-cell *matHeaderCellDef> Post id </th>
-      <td mat-cell *matCellDef="let element"> {{ element.id }} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="userName">
-        <th mat-header-cell *matHeaderCellDef> Username </th>
-        <td mat-cell *matCellDef="let element"> {{ element.userName }} </td>
-      </ng-container>
-  
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+    <div class="w-100">
+      <mat-spinner *ngIf="vm.loader" class="spinner w-100"></mat-spinner>
+    </div>
+    
+    <mat-paginator [length]="100" 
+        [pageSizeOptions]="[5, 10, 15, 20]" 
+        aria-label="Select page"
+        (page)="pageChange($event)">
+    </mat-paginator>
+</ng-container>
   
   
