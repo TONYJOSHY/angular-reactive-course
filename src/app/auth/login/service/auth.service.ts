@@ -31,7 +31,7 @@ export class AuthService {
             JSON.stringify(user)
           )
           this.userSubject$.next(user);
-          this.router.navigate(['nav/post'])
+          this.router.navigate(['nav/operator'])
         } )
       )
   }
