@@ -8,8 +8,8 @@
       <mat-form-field>
           <mat-label> Standard </mat-label>
           <mat-select (selectionChange)="onStandardChange($event)">
-              <ng-container *ngFor="let user of vm.standards">
-                  <mat-option [value]="user.id">{{ user.name }}</mat-option>
+              <ng-container *ngFor="let standard of vm.standards.data">
+                  <mat-option [value]="standard.id">{{ standard.name }}</mat-option>
               </ng-container>
           </mat-select>
       </mat-form-field>

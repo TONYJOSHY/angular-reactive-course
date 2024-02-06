@@ -36,7 +36,7 @@ export class OperatorsComponent {
   constructor(private operatorService: OperatorService){}
 
   operatorList$ = this.operatorService.operatorList$;
-  standardList$ = of([{ id: '', name: 'Test' }])
+  standardList$ = this.operatorService.standardTreeList$;
 
   vm$ = combineLatest([
     this.operatorList$,

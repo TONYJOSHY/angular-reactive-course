@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject, map, switchMap, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { OperatorParams } from '../models/operator-filter.interface';
-import { ResponseArray } from 'src/app/auth/login/models/response.interface';
-import { Operator } from '../models/operator.interface';
+import { ResponseArray, ResponseData } from 'src/app/auth/login/models/response.interface';
+import { Operator, Standard } from '../models/operator.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +23,11 @@ export class OperatorService {
   loaderSubject$ = new Subject<boolean>();
 
   constructor(private http: HttpClient){}
+
+  standardTreeList$ = this.http.get<ResponseData<Standard[]>>(
+    `${this.baserUrl}/certification/standard/tree/`, 
+    this.optionsWithParam({})
+  )
 
   operatorList$ = this.operatorFilterActions$.pipe(
     tap(() => this.loaderSubject$.next(true)),
