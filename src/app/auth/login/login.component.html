@@ -1,0 +1,24 @@
+<h1> Cbsoft login </h1>
+
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <p> admin </p>
+    <p> 64aphfhu33 </p>
+    <mat-form-field>
+        <mat-label> Username </mat-label>
+        <input matInput formControlName="username">
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+        <mat-label> Password </mat-label>
+        <input matInput formControlName="password">
+    </mat-form-field>
+    <br>
+    <button mat-raised-button color="primary"
+    type="submit"> Login </button>
+</form>
+
+<ng-container *ngIf="userObs$ | async"></ng-container>
+<br>
+<div *ngIf="errors">
+    {{ errors }}
+</div>
