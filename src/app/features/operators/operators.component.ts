@@ -9,6 +9,9 @@ import { MatTableModule } from '@angular/material/table';
 import { Observable, combineLatest, map, of } from 'rxjs';
 import { OperatorParams } from './models/operator-filter.interface';
 import { OperatorService } from './service/operator.service';
+import { MatButtonModule } from '@angular/material/button';
+import { AddOperatorComponent } from './dialog/add-operator/add-operator.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-operators',
@@ -23,7 +26,8 @@ import { OperatorService } from './service/operator.service';
     MatInputModule,
     MatSelectModule, 
     MatPaginatorModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatButtonModule,
   ]
 })
 export class OperatorsComponent {
@@ -33,7 +37,8 @@ export class OperatorsComponent {
   operatorParams: OperatorParams = { limit: 5, offset: 0, search: '', standard: '',
     country: '', state: '', blocked: false, approved: true }
 
-  constructor(private operatorService: OperatorService){}
+  constructor(private operatorService: OperatorService,
+              private dialog: MatDialog){}
 
   operatorList$ = this.operatorService.operatorList$;
   standardList$ = this.operatorService.standardTreeList$;
@@ -69,6 +74,16 @@ export class OperatorsComponent {
       limit: page.pageSize
     }
     this.operatorService.filterOperator(this.operatorParams)
+  }
+
+  addOperator(){
+    const dialogRef = this.dialog.open(AddOperatorComponent, {
+      data: ''
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+    });
   }
 
 }

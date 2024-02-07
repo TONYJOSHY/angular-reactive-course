@@ -1,0 +1,64 @@
+<ng-container *ngIf="vm$ | async as vm">
+    <div class="m-5">
+        <h1>Add New Operator</h1>
+        <form [formGroup]="newOperatorForm" (ngSubmit)="onSubmit()">
+            <mat-form-field>
+                <mat-label> Name </mat-label>
+                <input matInput formControlName="operatorName">
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                <mat-label> Operator type </mat-label>
+                <mat-select formControlName="operatorType">
+                    <ng-container *ngFor="let type of vm.type">
+                        <mat-option [value]="type.id">{{ type.name }}</mat-option>
+                    </ng-container>
+                </mat-select>
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                <mat-label> Email </mat-label>
+                <input matInput formControlName="primaryEmail">
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                <mat-label> Contact name </mat-label>
+                <input matInput formControlName="contactPersonName">
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                <mat-label> Contact number </mat-label>
+                <input matInput formControlName="contactNumber">
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                <mat-label> Address </mat-label>
+                <input matInput formControlName="address">
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                <mat-label> Country </mat-label>
+                <mat-select
+                    (selectionChange)="countrySelected($event)">
+                    <ng-container *ngFor="let item of vm.country">
+                        <mat-option [value]="item">{{ item.name }}</mat-option>
+                    </ng-container>
+                </mat-select>
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                <mat-label> state </mat-label>
+                <mat-select formControlName="state">
+                    <ng-container *ngFor="let item of stateList">
+                        <mat-option [value]="item.id">{{ item.name }}</mat-option>
+                    </ng-container>
+                </mat-select>
+            </mat-form-field>
+            <br>
+            <button mat-raised-button color="primary"
+            type="submit"> Add Operator </button>
+            <button mat-raised-button color="accent"
+            type="button" (click)="cancel()"> Cancel </button>
+        </form>
+    </div>
+</ng-container>

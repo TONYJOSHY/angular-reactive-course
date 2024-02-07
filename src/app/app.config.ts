@@ -3,8 +3,9 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { HttpClientModule, provideHttpClient, withInterceptors } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { AuthInterceptor } from './auth/login/intercepor/auth.interceptor';
+import { MatDialogModule } from '@angular/material/dialog';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -12,6 +13,9 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideHttpClient(
       withInterceptors([AuthInterceptor]),
+    ),
+    importProvidersFrom(
+      MatDialogModule
     )
   ]
 };

@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { OperatorParams } from '../models/operator-filter.interface';
 import { ResponseArray, ResponseData } from 'src/app/auth/login/models/response.interface';
 import { Operator, Standard } from '../models/operator.interface';
+import { Country, FormatedCountry, SubDivisionHelper } from '../models/country.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -13,13 +14,13 @@ export class OperatorService {
 
   baserUrl = environment.baseUrl2;
 
-  operatorParams: OperatorParams = { limit: 5, offset: 0, search: '', standard: '',
+  private operatorParams: OperatorParams = { limit: 5, offset: 0, search: '', standard: '',
     country: '', state: '', blocked: false, approved:true }
 
   private operatorFilterParams$ = new BehaviorSubject<OperatorParams>(
     this.operatorParams
   );
-  operatorFilterActions$ = this.operatorFilterParams$.asObservable();
+  private operatorFilterActions$ = this.operatorFilterParams$.asObservable();
   loaderSubject$ = new Subject<boolean>();
 
   constructor(private http: HttpClient){}
@@ -36,6 +37,31 @@ export class OperatorService {
         tap(() => this.loaderSubject$.next(false))
       )
     } ),
+  )
+
+  countryList$ = this.http.get<ResponseData<Country>>(
+    `${this.baserUrl}/accounts/countries/`
+  ).pipe(
+    map( (response: ResponseData<Country>) => {
+      const country: Country = response.data;
+      let countryList: FormatedCountry[] = [];
+      for(let key in country){
+        let tempCountry: FormatedCountry = {
+          id: key,
+          name: key,
+          dial_code: country[key]?.alpha_2,
+          alpha_2: country[key]?.alpha_2,
+          tin: country[key]?.tin || '',
+          sub_divisions: []
+        }
+        for(let prop in country[key].sub_divisions){
+          let subDivison: SubDivisionHelper = country[key].sub_divisions[prop];
+          tempCountry.sub_divisions.push(subDivison)
+        }
+        countryList.push(tempCountry)
+      }
+      return countryList;
+    } )
   )
 
   getOperatorList(params: OperatorParams){
