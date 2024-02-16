@@ -25,6 +25,11 @@ export const routes: Routes = [
                 canActivate: [ authGuard ],
                 loadComponent: () => import('../features/operators/operators.component')
                     .then(m => m.OperatorsComponent)
+            },
+            {
+                path: 'di',
+                loadComponent: () => import('../features/dependency-injection/dependency-injection.component')
+                    .then(m => m.DependencyInjectionComponent)
             }
         ],
     },
